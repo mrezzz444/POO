@@ -14,9 +14,9 @@ int main()
         eleccion = menu();
     }while(eleccion !=5);
 
-    cout<<"Hello World";
+    // cout<<"Hello World";
     unsigned short int menu();
-
+    
     return 0;
 }
 
@@ -27,11 +27,13 @@ bool t_usuario(unsigned short int &fil, unsigned short int &col)
     cout <<"Teclea las columnas";
     cin >> col;
 
-    if((fil >= 2 and fil <=10) and (col >= 2 and col <=10)) return true;
+    return  (fil >= 2 and fil <=10) and (col >= 2 and col <=10);
 
-    return false;
+    //optimizando codigo aparentemente 
+
+    // if((fil >= 2 and fil <=10) and (col >= 2 and col <=10)) return true;
+    // return false;
 }
-
 
 unsigned short int menu()
 {
