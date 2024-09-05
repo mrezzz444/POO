@@ -38,9 +38,9 @@ private:
 // {
 // }
 
-Matriz::~Matriz()
-{
-}
+// Matriz::~Matriz()
+// {
+// }
 
 
 #endif

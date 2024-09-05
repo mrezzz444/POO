@@ -59,77 +59,97 @@ void operaciones(void)
 {
     unsigned short int fil, col, opcion;
     bool centinela = false;
-    opcion = menu();
+    Matriz mat1(0, 0), mat2(0, 0), mat3(0, 0), resul(0,0); // Declarar matrices aquí para tener acceso en todos los casos
+    do {
+        opcion = menu();
+        switch (opcion) {
+            case 1:
+                cout << "Llenando tamaño" << endl;
 
-    do{
-
-    }while(opcion);
-    {
-    switch (opcion)
-    {
-           case 1:
-                cout <<"Llenando tamaño" << endl;
-
-                if (tamanio(fil, col))
-                {
+                if (tamanio(fil, col)) {
                     centinela = true;
-                    Matriz mat1(col, fil), mat2(col,fil), mat3(col,fil);
+                    //Creando los objetos y se corren los contructores
+                    mat1 = Matriz(fil, col); // Creamos las matrices con el tamaño especificado
+                    mat2 = Matriz(fil, col);
+                    resul = Matriz(fil, col); // Matriz para resultados
+                    cout << "Matrices creadas con éxito." << endl;
+                } else {
+                    mensaje(0);
+                    centinela = false;
                 }
-                else  
-                {
-                    mensaje();
-                    centinela = false;            
-                    break;
-                }  
-                   
-
                 break;
-            
+
             case 2:
-                
-                if(centinela){
-                    //Sumar la matriz
-                    mat1.SumatMatriz(mat2, resul);
-                    
-
-                    mensaje();
-                }else{
-
+                if (centinela) {
+                    // Sumar las matrices
+                    if (mat1.SumarMatriz(mat2, resul)) {
+                        mensaje(1);
+                        cout << "Matriz 1:" << endl;
+                        mat1.Imprimir();
+                        cout << "Matriz 2:" << endl;
+                        mat2.Imprimir();
+                        cout << "Resultado de la suma:" << endl;
+                        resul.Imprimir();
+                    } else {
+                        mensaje(0);
+                    }
+                } else {
+                    mensaje(0);
                 }
-
                 break;
-            
+
             case 3:
-                if(centinela){
-                    mensaje();
-                }else{
-
+                if (centinela) {
+                    // Restar las matrices
+                    if (mat1.RestarMatriz(mat2, resul)) {
+                        mensaje(1);
+                        cout << "Matriz 1:" << endl;
+                        mat1.Imprimir();
+                        cout << "Matriz 2:" << endl;
+                        mat2.Imprimir();
+                        cout << "Resultado de la resta:" << endl;
+                        resul.Imprimir();
+                    } else {
+                        mensaje(0);
+                    }
+                } else {
+                    mensaje(0);
                 }
-
                 break;
-            
+
             case 4:
-                if(centinela){
-                    mensaje();
-                }else{
-
+                if (centinela) {
+                    // Multiplicar las matrices
+                    if (mat1.MultiplicarMatriz(mat2, resul)) {
+                        mensaje(1);
+                        cout << "Matriz 1:" << endl;
+                        mat1.Imprimir();
+                        cout << "Matriz 2:" << endl;
+                        mat2.Imprimir();
+                        cout << "Resultado de la multiplicación:" << endl;
+                        resul.Imprimir();
+                    } else {
+                        mensaje(0);
+                    }
+                } else {
+                    mensaje(0);
                 }
+                break;
 
-                break;
-            
             case 5:
-                
-            
-            default:
-                // Code for default case
+                cout << "Saliendo del programa..." << endl;
                 break;
-     }
-    };
-  
+        }
+    } while (opcion != 5);
 }
+
 
 void mensaje(char valor)
 {
-    if(valor == "1")
+    if(1){
+        cout <<"Operacion realizada " << endl;
+    }
+    else{
     cout <<"Error, algo salio mal" << endl;
+    }
 }
