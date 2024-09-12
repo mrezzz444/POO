@@ -1,111 +1,250 @@
-#include <iostream>
-#include <vector>
+// #include <iostream>
+// using namespace std;
 
-#define MAX 50
-typedef int tipoDato;
+// class Ordenamiento
+// {
 
-class Ordena {
-private:
-    tipoDato array[MAX]; // Arreglo de datos
-    unsigned short int size_C; // Tamaño del arreglo
+// private:
+//     int arreglo[10];
+//     int tamaño;
 
-public:
-    // Constructor
-    Ordena() : size_C(0) {}
+//     // Función auxiliar para Quick Sort
+//     int particionar(int inicio, int fin)
+//     {
+//         int pivote = arreglo[fin];
+//         int i = (inicio - 1);
+//         for (int j = inicio; j < fin; j++)
+//         {
+//             if (arreglo[j] < pivote)
+//             {
+//                 i++;
+//                 swap(arreglo[i], arreglo[j]);
+//             }
+//         }
+//         swap(arreglo[i + 1], arreglo[fin]);
+//         return (i + 1);
+//     }
 
-    // Función para crear el arreglo
-    bool crear(unsigned short int tam) {
-        if (tam > MAX) {
-            std::cerr << "Tamaño excede el límite.\n";
-            return false;
-        }
-        size_C = tam;
-        for (int i = 0; i < size_C; ++i) {
-            std::cout << "Ingresa un número: ";
-            std::cin >> array[i];
-        }
-        return true;
-    }
+//     // Función auxiliar para Quick Sort
+//     void ordenamientoRapido(int inicio, int fin)
+//     {
+//         if (inicio < fin)
+//         {
+//             int pi = particionar(inicio, fin);
+//             ordenamientoRapido(inicio, pi - 1);
+//             ordenamientoRapido(pi + 1, fin);
+//         }
+//     }
 
-    // Función para limpiar el arreglo
-    void clear() {
-        size_C = 0;
-    }
+//     // Función auxiliar para Merge Sort
+//     void fusionar(int inicio, int mitad, int fin)
+//     {
+//         int tamañoIzquierda = mitad - inicio + 1;
+//         int tamañoDerecha = fin - mitad;
+//         int *izquierda = new int[tamañoIzquierda];
+//         int *derecha = new int[tamañoDerecha];
 
-    // Función para verificar si el arreglo está lleno
-    bool llena() const {
-        return size_C == MAX;
-    }
+//         for (int i = 0; i < tamañoIzquierda; i++)
+//             izquierda[i] = arreglo[inicio + i];
+//         for (int j = 0; j < tamañoDerecha; j++)
+//             derecha[j] = arreglo[mitad + 1 + j];
 
-    // Algoritmo de burbuja
-    bool burbuja() {
-        if (size_C == 0) return false;
-        for (int i = 0; i < size_C - 1; ++i) {
-            for (int j = 0; j < size_C - i - 1; ++j) {
-                if (array[j] > array[j + 1]) {
-                    std::swap(array[j], array[j + 1]);
-                }
-            }
-        }
-        return true;
-    }
+//         int i = 0;
+//         int j = 0;
+//         int k = inicio;
+//         while (i < tamañoIzquierda && j < tamañoDerecha)
+//         {
+//             if (izquierda[i] <= derecha[j])
+//             {
+//                 arreglo[k] = izquierda[i];
+//                 i++;
+//             }
+//             else
+//             {
+//                 arreglo[k] = derecha[j];
+//                 j++;
+//             }
+//             k++;
+//         }
 
-    // Algoritmo de inserción
-    bool insercion() {
-        if (size_C == 0) return false;
-        for (int i = 1; i < size_C; ++i) {
-            int key = array[i];
-            int j = i - 1;
-            while (j >= 0 && array[j] > key) {
-                array[j + 1] = array[j];
-                --j;
-            }
-            array[j + 1] = key;
-        }
-        return true;
-    }
+//         while (i < tamañoIzquierda)
+//         {
+//             arreglo[k] = izquierda[i];
+//             i++;
+//             k++;
+//         }
 
-    // Algoritmo QuickSort
-    bool quicksort(int left, int right) {
-        if (left >= right) return false;
-        int pivot = array[(left + right) / 2];
-        int i = left, j = right;
-        while (i <= j) {
-            while (array[i] < pivot) i++;
-            while (array[j] > pivot) j--;
-            if (i <= j) {
-                std::swap(array[i], array[j]);
-                i++;
-                j--;
-            }
-        }
-        if (left < j) quicksort(left, j);
-        if (i < right) quicksort(i, right);
-        return true;
-    }
+//         while (j < tamañoDerecha)
+//         {
+//             arreglo[k] = derecha[j];
+//             j++;
+//             k++;
+//         }
 
-    // Función para imprimir el arreglo
-    void imprimir() const {
-        for (int i = 0; i < size_C; ++i) {
-            std::cout << array[i] << " ";
-        }
-        std::cout << std::endl;
-    }
-};
+//         delete[] izquierda;
+//         delete[] derecha;
+//     }
 
-int main() {
-    Ordena ordena_obj;
-    
-    // Crear un arreglo de tamaño 5
-    if (ordena_obj.crear(5)) {
-        std::cout << "Arreglo antes de ordenar:\n";
-        ordena_obj.imprimir();
+//     // Función auxiliar para Merge Sort
+//     void ordenamientoPorFusion(int inicio, int fin)
+//     {
+//         if (inicio < fin)
+//         {
+//             int mitad = inicio + (fin - inicio) / 2;
+//             ordenamientoPorFusion(inicio, mitad);
+//             ordenamientoPorFusion(mitad + 1, fin);
+//             fusionar(inicio, mitad, fin);
+//         }
+//     }
 
-        // Ordenar usando burbuja
-        ordena_obj.burbuja();
-        std::cout << "Arreglo después de burbuja:\n";
-        ordena_obj.imprimir();
-    }
+// public:
+//     // Constructor que recibe un arreglo y su tamaño
+//     Ordenamiento(int arregloEntrada[], int tamañoArreglo)
+//     {
+//         tamaño = tamañoArreglo;
+//         for (int i = 0; i < tamaño; i++)
+//         {
+//             arreglo[i] = arregloEntrada[i]; // Copiamos los valores del arreglo pasado como parámetro
+//         }
+//     }
 
-    return 0;
-}
+//     // Método para realizar el Bubble Sort
+//     void ordenamientoBurbuja()
+//     {
+//         for (int i = 0; i < tamaño - 1; i++)
+//         {
+//             for (int j = 0; j < tamaño - i - 1; j++)
+//             {
+//                 if (arreglo[j] > arreglo[j + 1])
+//                 {
+//                     // Intercambiar arreglo[j] y arreglo[j+1]
+//                     int temp = arreglo[j];
+//                     arreglo[j] = arreglo[j + 1];
+//                     arreglo[j + 1] = temp;
+//                 }
+//             }
+//         }
+//     }
+
+//     // Método para realizar el Bubble Sort mejorado
+//     void ordenamientoBurbujaMejorado()
+//     {
+//         bool intercambiado;
+//         for (int i = 0; i < tamaño - 1; i++)
+//         {
+//             intercambiado = false;
+//             for (int j = 0; j < tamaño - i - 1; j++)
+//             {
+//                 if (arreglo[j] > arreglo[j + 1])
+//                 {
+//                     // Intercambiar arreglo[j] y arreglo[j+1]
+//                     int temp = arreglo[j];
+//                     arreglo[j] = arreglo[j + 1];
+//                     arreglo[j + 1] = temp;
+//                     intercambiado = true;
+//                 }
+//             }
+//             // Si no se realizó ningún intercambio, el arreglo ya está ordenado
+//             if (!intercambiado)
+//             {
+//                 break;
+//             }
+//         }
+//     }
+
+//     // Método para realizar el Insertion Sort
+//     void ordenamientoInsercion()
+//     {
+//         for (int i = 1; i < tamaño; i++)
+//         {
+//             int clave = arreglo[i];
+//             int j = i - 1;
+//             // Mueve los elementos mayores a la derecha
+//             while (j >= 0 && arreglo[j] > clave)
+//             {
+//                 arreglo[j + 1] = arreglo[j];
+//                 j--;
+//             }
+//             arreglo[j + 1] = clave; // Inserta la clave en su posición correcta
+//         }
+//     }
+
+//     // Método para realizar el Quick Sort
+//     void ordenamientoRapido()
+//     {
+//         ordenamientoRapido(0, tamaño - 1);
+//     }
+
+//     // Método para realizar el Merge Sort
+//     void ordenamientoPorFusion()
+//     {
+//         ordenamientoPorFusion(0, tamaño - 1);
+//     }
+
+//     // Método para imprimir el arreglo
+//     void imprimirArreglo()
+//     {
+//         for (int i = 0; i < tamaño; i++)
+//         {
+//             cout << arreglo[i] << " ";
+//         }
+//         cout << endl;
+//     }
+// };
+
+// int main()
+// {
+//     // Definimos un arreglo de ejemplo
+//     int arreglo[] = {5, 1, 4, 2, 8};
+//     int tamaño = sizeof(arreglo) / sizeof(arreglo[0]); // Calculamos el tamaño del arreglo
+
+//     // Creamos un objeto de la clase Ordenamiento y le pasamos el arreglo
+//     Ordenamiento ordenar(arreglo, tamaño);
+
+//     // Imprimimos el arreglo original
+//     cout << "Arreglo original: ";
+//     ordenar.imprimirArreglo();
+
+//     // Llamamos al método ordenamientoBurbuja para ordenar el arreglo
+//     ordenar.ordenamientoBurbuja();
+//     cout << "Arreglo ordenado con Bubble Sort: ";
+//     ordenar.imprimirArreglo();
+
+//     // Restablecemos el arreglo original
+//     int arreglo2[] = {5, 1, 4, 2, 8};
+//     Ordenamiento ordenar2(arreglo2, tamaño);
+
+//     // Llamamos al método ordenamientoBurbujaMejorado para ordenar el arreglo
+//     ordenar2.ordenamientoBurbujaMejorado();
+//     cout << "Arreglo ordenado con Bubble Sort Mejorado: ";
+//     ordenar2.imprimirArreglo();
+
+//     // Restablecemos el arreglo original
+//     int arreglo3[] = {5, 1, 4, 2, 8};
+//     Ordenamiento ordenar3(arreglo3, tamaño);
+
+//     // Llamamos al método ordenamientoInsercion para ordenar el arreglo
+//     ordenar3.ordenamientoInsercion();
+//     cout << "Arreglo ordenado con Insertion Sort: ";
+//     ordenar3.imprimirArreglo();
+
+//     // Restablecemos el arreglo original
+//     int arreglo4[] = {5, 1, 4, 2, 8};
+//     Ordenamiento ordenar4(arreglo4, tamaño);
+
+//     // Llamamos al método ordenamientoRapido para ordenar el arreglo
+//     ordenar4.ordenamientoRapido();
+//     cout << "Arreglo ordenado con Quick Sort: ";
+//     ordenar4.imprimirArreglo();
+
+//     // Restablecemos el arreglo original
+//     int arreglo5[] = {5, 1, 4, 2, 8};
+//     Ordenamiento ordenar5(arreglo5, tamaño);
+
+//     // Llamamos al método ordenamientoPorFusion para ordenar el arreglo
+//     ordenar5.ordenamientoPorFusion();
+//     cout << "Arreglo ordenado con Merge Sort: ";
+//     ordenar5.imprimirArreglo();
+
+//     return 0;
+// }

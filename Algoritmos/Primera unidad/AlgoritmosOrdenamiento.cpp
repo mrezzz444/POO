@@ -1,138 +1,254 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-// Función para realizar el ordenamiento por burbuja
-void bubbleSort(int arr[], int n) {
-    // Recorremos todo el arreglo varias veces
-    for (int i = 0; i < n-1; i++) {
-        // Los últimos i elementos ya están ordenados, por lo que no los volvemos a comparar
-        for (int j = 0; j < n-i-1; j++) {
-            // Si el elemento actual es mayor que el siguiente, los intercambiamos
-            if (arr[j] > arr[j+1]) {
-                int temp = arr[j];   // Guardamos el valor temporalmente
-                arr[j] = arr[j+1];   // Movemos el siguiente elemento a la posición actual
-                arr[j+1] = temp;     // Colocamos el elemento actual en la siguiente posición
+class Ordenamiento
+{
+
+private:
+    int arreglo[10];
+    int tamaño;
+
+    // Función auxiliar para Quick Sort
+    int particionar(int inicio, int fin)
+    {
+        int pivote = arreglo[fin];
+        int i = (inicio - 1);
+        for (int j = inicio; j < fin; j++)
+        {
+            if (arreglo[j] < pivote)
+            {
+                i++;
+                swap(arreglo[i], arreglo[j]);
+            }
+        }
+        swap(arreglo[i + 1], arreglo[fin]);
+        return (i + 1);
+    }
+
+    // Función auxiliar para Quick Sort
+    void ordenamientoRapido(int inicio, int fin)
+    {
+        if (inicio < fin)
+        {
+            int pi = particionar(inicio, fin);
+            ordenamientoRapido(inicio, pi - 1);
+            ordenamientoRapido(pi + 1, fin);
+        }
+    }
+
+    // Función auxiliar para Merge Sort
+    void fusionar(int inicio, int mitad, int fin)
+    {
+        int tamañoIzquierda = mitad - inicio + 1;
+        int tamañoDerecha = fin - mitad;
+        int *izquierda = new int[tamañoIzquierda];
+        int *derecha = new int[tamañoDerecha];
+
+        for (int i = 0; i < tamañoIzquierda; i++)
+            izquierda[i] = arreglo[inicio + i];
+        for (int j = 0; j < tamañoDerecha; j++)
+            derecha[j] = arreglo[mitad + 1 + j];
+
+        int i = 0;
+        int j = 0;
+        int k = inicio;
+        while (i < tamañoIzquierda && j < tamañoDerecha)
+        {
+            if (izquierda[i] <= derecha[j])
+            {
+                arreglo[k] = izquierda[i];
+                i++;
+            }
+            else
+            {
+                arreglo[k] = derecha[j];
+                j++;
+            }
+            k++;
+        }
+
+        while (i < tamañoIzquierda)
+        {
+            arreglo[k] = izquierda[i];
+            i++;
+            k++;
+        }
+
+        while (j < tamañoDerecha)
+        {
+            arreglo[k] = derecha[j];
+            j++;
+            k++;
+        }
+
+        delete[] izquierda;
+        delete[] derecha;
+    }
+
+    // Función auxiliar para Merge Sort
+    void ordenamientoPorFusion(int inicio, int fin)
+    {
+        if (inicio < fin)
+        {
+            int mitad = inicio + (fin - inicio) / 2;
+            ordenamientoPorFusion(inicio, mitad);
+            ordenamientoPorFusion(mitad + 1, fin);
+            fusionar(inicio, mitad, fin);
+        }
+    }
+
+public:
+    // Constructor que recibe un arreglo y su tamaño
+    Ordenamiento(int arregloEntrada[], int tamañoArreglo)
+    {
+        tamaño = tamañoArreglo;
+        for (int i = 0; i < tamaño; i++)
+        {
+            arreglo[i] = arregloEntrada[i]; // Copiamos los valores del arreglo pasado como parámetro
+        }
+    }
+
+    // Método para realizar el Bubble Sort
+    void ordenamientoBurbuja()
+    {
+        for (int i = 0; i < tamaño - 1; i++)
+        {
+            for (int j = 0; j < tamaño - i - 1; j++)
+            {
+                if (arreglo[j] > arreglo[j + 1])
+                {
+                    // Intercambiar arreglo[j] y arreglo[j+1]
+                    int temp = arreglo[j];
+                    arreglo[j] = arreglo[j + 1];
+                    arreglo[j + 1] = temp;
+                }
             }
         }
     }
-}
 
-// Función para realizar el Bubble Sort Mejorado
-void bubbleSortMejorado(int arr[], int n) {
-    int i, j;
-    int swapped;
-
-    for (i = 0; i < n-1; i++) {
-        swapped = 0; // Inicializamos la variable de intercambio como 0 (falso)
-        for (j = 0; j < n-i-1; j++) {
-            if (arr[j] > arr[j+1]) {
-                int temp = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1] = temp;
-
-                // Como se ha establecido un intercambio, marcamos la bandera como 1
-                swapped = 1;
+    // Método para realizar el Bubble Sort mejorado
+    void ordenamientoBurbujaMejorado()
+    {
+        bool intercambiado;
+        for (int i = 0; i < tamaño - 1; i++)
+        {
+            intercambiado = false;
+            for (int j = 0; j < tamaño - i - 1; j++)
+            {
+                if (arreglo[j] > arreglo[j + 1])
+                {
+                    // Intercambiar arreglo[j] y arreglo[j+1]
+                    int temp = arreglo[j];
+                    arreglo[j] = arreglo[j + 1];
+                    arreglo[j + 1] = temp;
+                    intercambiado = true;
+                }
+            }
+            // Si no se realizó ningún intercambio, el arreglo ya está ordenado
+            if (!intercambiado)
+            {
+                break;
             }
         }
-        // Si no se realizaron intercambios durante esta pasada, el arreglo ya está ordenado
-        if (swapped == 0) {
-            break;
-        }
     }
-}
 
-// Función para fusionar dos sub-arreglos y contar inversiones
-int mergeAndCount(int arr[], int temp[], int left, int mid, int right) {
-    int i = left;    // Índice para la mitad izquierda
-    int j = mid + 1; // Índice para la mitad derecha
-    int k = left;    // Índice para el sub-arreglo temporal
-    int inv_count = 0;
-
-    // Fusionamos los dos sub-arreglos mientras contamos las inversiones
-    while (i <= mid && j <= right) {
-        if (arr[i] <= arr[j]) {
-            temp[k++] = arr[i++];
-        } else {
-            temp[k++] = arr[j++];
-            // Cada vez que copiamos un elemento de la mitad derecha,
-            // todos los elementos restantes en la mitad izquierda son mayores,
-            // lo que cuenta como inversiones.
-            inv_count += (mid + 1) - i;
+    // Método para realizar el Insertion Sort
+    void ordenamientoInsercion()
+    {
+        for (int i = 1; i < tamaño; i++)
+        {
+            int clave = arreglo[i];
+            int j = i - 1;
+            // Mueve los elementos mayores a la derecha
+            while (j >= 0 && arreglo[j] > clave)
+            {
+                arreglo[j + 1] = arreglo[j];
+                j--;
+            }
+            arreglo[j + 1] = clave; // Inserta la clave en su posición correcta
         }
     }
 
-    // Copiamos los elementos restantes de la mitad izquierda, si los hay
-    while (i <= mid)
-        temp[k++] = arr[i++];
-
-    // Copiamos los elementos restantes de la mitad derecha, si los hay
-    while (j <= right)
-        temp[k++] = arr[j++];
-
-    // Copiamos el sub-arreglo ordenado de vuelta al arreglo original
-    for (i = left; i <= right; i++)
-        arr[i] = temp[i];
-
-    return inv_count;
-}
-
-// Función recursiva para dividir el arreglo y contar inversiones
-int mergeSortAndCount(int arr[], int temp[], int left, int right) {
-    int mid, inv_count = 0;
-    if (left < right) {
-        mid = (left + right) / 2;
-
-        // Conteo de inversiones en la mitad izquierda
-        inv_count += mergeSortAndCount(arr, temp, left, mid);
-
-        // Conteo de inversiones en la mitad derecha
-        inv_count += mergeSortAndCount(arr, temp, mid + 1, right);
-
-        // Conteo de inversiones durante la fusión
-        inv_count += mergeAndCount(arr, temp, left, mid, right);
+    // Método para realizar el Quick Sort
+    void ordenamientoRapido()
+    {
+        ordenamientoRapido(0, tamaño - 1);
     }
-    return inv_count;
-}
 
-// Función principal para contar las inversiones en un arreglo
-int countInversions(int arr[], int n) {
-    int temp[n];
-    return mergeSortAndCount(arr, temp, 0, n - 1);
-}
+    // Método para realizar el Merge Sort
+    void ordenamientoPorFusion()
+    {
+        ordenamientoPorFusion(0, tamaño - 1);
+    }
 
-// Función para imprimir un arreglo
-void printArray(int arr[], int size) {
-    for (int i = 0; i < size; i++)
-        cout << arr[i] << " ";
-    cout << endl;
-}
+    // Método para imprimir el arreglo
+    void imprimirArreglo()
+    {
+        for (int i = 0; i < tamaño; i++)
+        {
+            cout << arreglo[i] << " ";
+        }
+        cout << endl;
+    }
+};
 
-int main() {
-    // Arreglos de ejemplo
-    int arr1[] = {64, 34, 25, 12, 22, 11, 90};
-    int n1 = sizeof(arr1)/sizeof(arr1[0]);
+int main()
+{
+    int arreglo[10];  // para burbuja
+    int arreglo2[10]; // para burbuja mejorado
+    int arreglo3[10]; // Para insercion
+    int arreglo4[10]; // para quick sort
+    int arreglo5[10]; // para merge sort
+    for (int i = 0; i < 10; i++)
+    {
+        cout << "Bienvenido, porfavor introduzca el componente " << i + 1 << " del arreglo ";
+        cin >> arreglo[i];
+        arreglo2[i] = arreglo[i];
+        arreglo3[i] = arreglo[i];
+        arreglo4[i] = arreglo[i];
+        arreglo5[i] = arreglo[i];
+        cout << endl;
+    }
 
-    int arr2[] = {1, 20, 6, 4, 5};
-    int n2 = sizeof(arr2)/sizeof(arr2[0]);
+    int tamaño = 10;
 
-    // Ejemplo de Bubble Sort
-    cout << "Array antes de Bubble Sort: ";
-    printArray(arr1, n1);
-    bubbleSort(arr1, n1);
-    cout << "Array después de Bubble Sort: ";
-    printArray(arr1, n1);
+    Ordenamiento ordenar(arreglo, tamaño);
 
-    // Ejemplo de Bubble Sort Mejorado
-    cout << "\nArray antes de Bubble Sort Mejorado: ";
-    printArray(arr1, n1);
-    bubbleSortMejorado(arr1, n1);
-    cout << "Array después de Bubble Sort Mejorado: ";
-    printArray(arr1, n1);
+    // Se imprime de nuez el arreglo
+    cout << "Arreglo original: ";
+    ordenar.imprimirArreglo();
 
-    // Ejemplo de conteo de inversiones usando Merge Sort
-    cout << "\nNúmero de inversiones en el array: ";
-    int inv_count = countInversions(arr2, n2);
-    cout << inv_count << endl;
+    // Llamamos al método ordenamientoBurbuja para ordenar el arreglo
+    ordenar.ordenamientoBurbuja();
+    cout << "Arreglo ordenado con Bubble Sort: ";
+    ordenar.imprimirArreglo();
+
+    Ordenamiento ordenar2(arreglo2, tamaño);
+
+    // Llamamos al método ordenamientoBurbujaMejorado para ordenar el arreglo
+    ordenar2.ordenamientoBurbujaMejorado();
+    cout << "Arreglo ordenado con Bubble Sort Mejorado: ";
+    ordenar2.imprimirArreglo();
+
+    Ordenamiento ordenar3(arreglo3, tamaño);
+
+    // Llamamos al método ordenamientoInsercion para ordenar el arreglo
+    ordenar3.ordenamientoInsercion();
+    cout << "Arreglo ordenado con Insertion Sort: ";
+    ordenar3.imprimirArreglo();
+    Ordenamiento ordenar4(arreglo4, tamaño);
+
+    // Llamamos al método ordenamientoRapido para ordenar el arreglo
+    ordenar4.ordenamientoRapido();
+    cout << "Arreglo ordenado con Quick Sort: ";
+    ordenar4.imprimirArreglo();
+
+    Ordenamiento ordenar5(arreglo5, tamaño);
+
+    // Llamamos al método ordenamientoPorFusion para ordenar el arreglo
+    ordenar5.ordenamientoPorFusion();
+    cout << "Arreglo ordenado con Merge Sort: ";
+    ordenar5.imprimirArreglo();
 
     return 0;
 }
