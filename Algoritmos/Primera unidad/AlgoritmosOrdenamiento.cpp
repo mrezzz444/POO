@@ -1,3 +1,5 @@
+// Practica algoritmos de ordenamiento
+//  Alumnos: Isaac Avila Saenz (238925) y Ashley Paulina Dominguez Ruiz (225751)
 #include <bits/stdc++.h>
 using namespace std;
 

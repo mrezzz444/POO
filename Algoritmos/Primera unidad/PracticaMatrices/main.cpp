@@ -1,3 +1,6 @@
+// Practica de operaciones con matrices
+// Alumnos: Isaac Avila Saenz (238925) y Ashley Paulina Dominguez Ruiz (225751)
+
 #include <bits/stdc++.h>
 #include "src\Matriz.cpp"
 
