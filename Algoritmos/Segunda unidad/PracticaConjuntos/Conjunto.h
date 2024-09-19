@@ -10,13 +10,13 @@ private:
     unsigned short int card;
 
 public:
-    Conjunto();
+    Conjunto() { card = 0; };
     bool Member(typeinfo);
     bool AddElem(typeinfo);
     bool RmvElem(typeinfo);
     // bool Copy(Conjunto &);
     // bool Equal(Conjunto);
-    bool Print();
+    void Print();
     // void Intersect(Conjunto, Conjunto &);
     bool Union(Conjunto, Conjunto &);
     // void RmvAll();
