@@ -13,11 +13,22 @@ inline bool Conjunto::Member(typeinfo dato)
     return false;
 }
 
+// inline bool Conjunto::AddElem(typeinfo dato)
+// {
+//     if ((card == maxCard) || Member(dato))
+//         return false;
+//     elementos[card++] = dato; // aqui aumenta en uno de una vez la variable de card
+// }
+
 inline bool Conjunto::AddElem(typeinfo dato)
 {
     if ((card == maxCard) || Member(dato))
         return false;
-    elementos[card++] = dato; // aqui aumenta en uno de una vez la variable de card
+
+    elementos[card] = dato; // Asigna el dato al array
+    card++;                 // Incrementa card después de la asignación
+
+    return true; // Asegúrate de devolver true si se añade el elemento
 }
 
 inline bool Conjunto::RmvElem(typeinfo dato)
@@ -52,7 +63,7 @@ inline void Conjunto::Print()
 inline bool Conjunto::Union(Conjunto conj2, Conjunto &conj3)
 {
     conj3.card = 0;
-    for (int i = 0; i < card; i++)
+    for (int i = 0; i < card; i++) // se deja que es el objeto implicito
         conj3.AddElem(elementos[i]);
 
     for (int i = 0; i < conj2.card; i++)
