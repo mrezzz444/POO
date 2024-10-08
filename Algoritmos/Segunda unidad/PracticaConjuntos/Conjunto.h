@@ -11,8 +11,8 @@ private:
 
 public:
     Conjunto() { card = 0; };
-    bool Member(typeinfo);
-    bool AddElem(typeinfo);
+    bool Member(typeinfo); // -
+    bool AddElem(typeinfo); // -
     bool RmvElem(typeinfo);
     // bool Copy(Conjunto &);
     // bool Equal(Conjunto);
