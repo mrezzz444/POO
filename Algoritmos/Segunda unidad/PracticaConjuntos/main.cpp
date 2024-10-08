@@ -36,8 +36,8 @@ int main()
     return 0;
     conj1.Print();
 }
-
-// Implementar un menu de opciones con las siguientes opciones
+// Comentario
+//  Implementar un menu de opciones con las siguientes opciones
 /*
 1.Insertar
 2.Remover
